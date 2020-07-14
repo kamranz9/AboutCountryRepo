@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AboutCountryProject</string>
+    <string name="image_details">Image</string>
 </resources>

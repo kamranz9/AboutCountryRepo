@@ -1,7 +1,6 @@
 package com.assignment.aboutcountryproject.model.remote
 
 import com.assignment.aboutcountryproject.model.data.CountryEntity
-import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Url

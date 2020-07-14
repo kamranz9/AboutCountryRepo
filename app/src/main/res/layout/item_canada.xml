@@ -22,6 +22,7 @@
         android:layout_marginBottom="@dimen/spacing_medium"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
+        android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:padding="@dimen/spacing_huge"
         app:cardBackgroundColor="@color/light_blue"
@@ -33,18 +34,18 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/spacing_medium"
+            android:paddingStart="@dimen/spacing_medium"
             android:paddingTop="@dimen/spacing_small"
-            android:paddingRight="@dimen/spacing_small"
+            android:paddingEnd="@dimen/spacing_small"
             android:paddingBottom="@dimen/spacing_medium">
 
             <TextView
                 android:id="@+id/label_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/image_arrow"
-                android:gravity="left|top"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/image_arrow"
+                android:gravity="start|top"
                 android:text="@{row.title}"
                 android:textColor="@color/royal_blue_text"
                 android:textSize="@dimen/heading_textsize"
@@ -54,15 +55,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/label_title"
-                android:layout_toLeftOf="@+id/image_arrow"
+                android:layout_toStartOf="@+id/image_arrow"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/label_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/image_people"
-                    android:gravity="left|top"
+                    android:layout_toStartOf="@+id/image_people"
+                    android:gravity="start|top"
                     android:text="@{row.description}"
                     android:textColor="@android:color/secondary_text_light"
                     android:textSize="@dimen/description_textsize" />
@@ -72,13 +73,13 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_gravity="top"
                     android:layout_marginLeft="@dimen/spacing_small"
                     android:layout_marginRight="@dimen/spacing_small"
-                     />
-                <!--app:setImageUrl="@{row.imageHref}"
-                tools:imageUrl="@{row.imageHref}"-->
+                    android:imageUrl="@{row.imageHref}"
+                    android:contentDescription="@string/image_details" />
+                <!--tools:imageUrl="@{row.imageHref}"-->
 
             </RelativeLayout>
 
@@ -86,10 +87,11 @@
                 android:id="@+id/image_arrow"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:contentDescription="@string/image_details"
                 android:layout_gravity="center"
-                android:layout_marginRight="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
                 android:src="@drawable/arrow" />
 
 

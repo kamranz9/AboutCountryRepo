@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -14,20 +13,27 @@
         <variable
             name="vm"
             type="com.assignment.aboutcountryproject.viewmodel.AboutCanadaViewModel" />
+
+        <variable
+            name="frag"
+            type="com.assignment.aboutcountryproject.view.activity.AboutCanadaFragment" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:visibility="@{vm.progressBar}" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/header_template"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 style="@style/Helvetica_Regular_BodyText"
@@ -40,22 +46,22 @@
                 android:textColor="@color/colorPrimary" />
         </androidx.cardview.widget.CardView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="0dp"
-            android:background="@color/light_blue"
-            android:layout_height="match_parent"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_container"
+            android:layout_width="match_parent"
             android:layout_below="@+id/header_template"
-            app:setAdapter="@{adapter}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_marginTop="32dp"
-            app:layout_constraintBottom_toBottomOf="@id/header_template"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_height="match_parent"
+            app:onRefreshListener="@{() -> frag.onRefresh()}"
+            app:refreshing="@{vm.isLoading}">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--app:setAdapter="@{adapter}"-->
+
+    </RelativeLayout>
 </layout>
