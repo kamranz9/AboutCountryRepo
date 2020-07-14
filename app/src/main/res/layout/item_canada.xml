@@ -1,0 +1,101 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="row"
+            type="com.assignment.aboutcountryproject.model.data.RowEntity" />
+    </data>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/item_people"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_marginRight="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="@dimen/spacing_huge"
+        app:cardBackgroundColor="@color/light_blue"
+        app:cardElevation="5dp">
+        <!--android:onClick="@{vm::onItemClick}"-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/spacing_medium"
+            android:paddingTop="@dimen/spacing_small"
+            android:paddingRight="@dimen/spacing_small"
+            android:paddingBottom="@dimen/spacing_medium">
+
+            <TextView
+                android:id="@+id/label_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/image_arrow"
+                android:gravity="left|top"
+                android:text="@{row.title}"
+                android:textColor="@color/royal_blue_text"
+                android:textSize="@dimen/heading_textsize"
+                tools:text="TITLE" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/label_title"
+                android:layout_toLeftOf="@+id/image_arrow"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/label_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/image_people"
+                    android:gravity="left|top"
+                    android:text="@{row.description}"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="@dimen/description_textsize" />
+
+                <ImageView
+                    android:id="@+id/image_people"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginRight="@dimen/spacing_small"
+                     />
+                <!--app:setImageUrl="@{row.imageHref}"
+                tools:imageUrl="@{row.imageHref}"-->
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/image_arrow"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/spacing_small"
+                android:src="@drawable/arrow" />
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</layout>
