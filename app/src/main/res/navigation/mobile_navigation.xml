@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_home"
+    tools:ignore="UnusedNavigation">
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.assignment.aboutcountryproject.view.activity.AboutCanadaFragment"
+        android:name="com.assignment.country.view.activity.AboutCanadaFragment"
         android:label=" "
         tools:layout="@layout/fragment_aboutcanada">
     </fragment>

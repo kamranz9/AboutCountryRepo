@@ -21,4 +21,5 @@
     <dimen name="letter_large">18sp</dimen>
     <dimen name="heading_textsize">15sp</dimen>
     <dimen name="description_textsize">14sp</dimen>
+    <dimen name="card_elevation">5dp</dimen>
 </resources>

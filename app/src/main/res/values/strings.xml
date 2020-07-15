@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">AboutCountryProject</string>
     <string name="image_details">Image</string>
+    <string name="default_message_loading_users">Pull to Refresh Data !</string>
+    <string name="error_message_loading_internet">Please Check Internet Connection</string>
+    <string name="error_message_loading_users">There seems to have been some error.</string>
 </resources>

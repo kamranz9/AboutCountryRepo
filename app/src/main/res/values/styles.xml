@@ -14,6 +14,12 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="Helvetica_Bold_BodyText" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/helveticaneue_bold</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
 </resources>

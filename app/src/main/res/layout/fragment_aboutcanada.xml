@@ -8,35 +8,29 @@
 
         <variable
             name="adapter"
-            type="com.assignment.aboutcountryproject.view.adapter.AboutCanadaAdapter" />
+            type="com.assignment.country.view.adapter.AboutCanadaAdapter" />
 
         <variable
             name="vm"
-            type="com.assignment.aboutcountryproject.viewmodel.AboutCanadaViewModel" />
+            type="com.assignment.country.viewmodel.AboutCanadaViewModel" />
 
         <variable
             name="frag"
-            type="com.assignment.aboutcountryproject.view.activity.AboutCanadaFragment" />
+            type="com.assignment.country.view.activity.AboutCanadaFragment" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            app:visibility="@{vm.progressBar}" />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/header_template"
+            app:visibility="@{vm.userRecycler}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                style="@style/Helvetica_Regular_BodyText"
+                style="@style/Helvetica_Bold_BodyText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -46,19 +40,39 @@
                 android:textColor="@color/colorPrimary" />
         </androidx.cardview.widget.CardView>
 
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_template"
+            android:layout_centerHorizontal="true"
+            app:visibility="@{vm.progressBar}" />
+
+
+        <TextView
+            android:id="@+id/label_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progress_bar"
+            android:gravity="center"
+            android:text="@{vm.messageLabel}"
+            app:visibility="@{vm.userLabel}" />
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_container"
             android:layout_width="match_parent"
-            android:layout_below="@+id/header_template"
             android:layout_height="match_parent"
-            app:onRefreshListener="@{() -> frag.onRefresh()}"
+            android:layout_below="@+id/header_template"
             app:refreshing="@{vm.isLoading}">
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                app:visibility="@{vm.userRecycler}" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <!--app:setAdapter="@{adapter}"-->
