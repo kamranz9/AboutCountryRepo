@@ -70,6 +70,13 @@ android {
         jvmTarget = "1.8"
     }
 
+    testOptions {
+        unitTests {
+            //returnDefaultValues = true
+            includeAndroidResources = true
+        }
+    }
+
 }
 
 dependencies {
@@ -105,6 +112,9 @@ dependencies {
     // optional - RxJava support for Room
     implementation "androidx.room:room-rxjava2:$room_version"
 
+    //Roboelectric
+    testImplementation "org.robolectric:robolectric:4.2.1"
+
 
     implementation "io.reactivex.rxjava2:rxjava:2.2.9"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
@@ -124,3 +134,5 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+

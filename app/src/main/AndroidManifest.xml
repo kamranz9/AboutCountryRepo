@@ -15,8 +15,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.assignment.country.view.activity.AboutCanadaActivity"
-            android:launchMode="singleTop"
-            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

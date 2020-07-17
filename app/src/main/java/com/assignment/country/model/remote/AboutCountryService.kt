@@ -1,7 +1,7 @@
 package com.assignment.country.model.remote
 
 import com.assignment.country.model.data.CountryEntity
-import io.reactivex.Single
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Url
 
@@ -10,6 +10,6 @@ import retrofit2.http.Url
  */
 interface AboutCountryService {
     @GET
-    fun fetchCountryData(@Url url: String?): Single<CountryEntity>?
+    fun fetchCountryData(@Url url: String?): Observable<CountryEntity>?
 
 }

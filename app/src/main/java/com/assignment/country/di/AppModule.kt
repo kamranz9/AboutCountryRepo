@@ -2,6 +2,8 @@ package com.assignment.country.di
 
 
 //import com.assignment.aboutcountryproject.BuildConfig
+import android.content.Context
+import androidx.lifecycle.ViewModel
 import com.assignment.country.BuildConfig
 import com.assignment.country.model.local.AppDatabase
 import com.assignment.country.model.local.dao.CountryDetailsDao
@@ -9,6 +11,7 @@ import com.assignment.country.model.remote.AboutCountryService
 import com.assignment.country.model.repository.AboutCanadaRepository
 import com.assignment.country.viewmodel.AboutCanadaViewModel
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -16,11 +19,12 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 val viewModelModule = module {
-    viewModel { AboutCanadaViewModel(get<AboutCanadaRepository>()) }
+    viewModel { AboutCanadaViewModel(get<AboutCanadaRepository>(),androidContext()) }
     //or use reflection
 //    viewModel<PaoViewModel>()
 
 }
+
 
 val repoModule = module {
 

@@ -1,5 +1,9 @@
 package com.assignment.country.viewmodel
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.view.View
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -7,13 +11,20 @@ import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.assignment.country.helper.async
-import com.assignment.country.model.data.CountryEntity
+import com.assignment.country.R
 import com.assignment.country.model.data.RowEntity
 import com.assignment.country.model.repository.AboutCanadaRepository
-import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
-class AboutCanadaViewModel constructor(private val repo: AboutCanadaRepository) : ViewModel() {
+
+class AboutCanadaViewModel(
+    private val repo: AboutCanadaRepository,
+    androidContext: Context
+) : ViewModel() {
+
+    private val context = androidContext
 
     //////////////////data//////////////
     private val loading = ObservableBoolean(false)
@@ -21,31 +32,84 @@ class AboutCanadaViewModel constructor(private val repo: AboutCanadaRepository) 
     var userRecycler: ObservableInt? = ObservableInt(View.GONE)
     var progressBar: ObservableInt? = ObservableInt(View.GONE)
     val isLoading: ObservableBoolean = ObservableBoolean(false)
-    var userLabel: ObservableInt?  = ObservableInt(View.VISIBLE)
+    var userLabel: ObservableInt? = ObservableInt(View.VISIBLE)
     var messageLabel: ObservableField<String>? = ObservableField("")
 
+    private val returnData by lazy {
+        return@lazy callAPIRemote()
+    }
 
-    //////////////////binding//////////////
-    fun getCountryDetailsList(): Single<CountryEntity> =
-        repo.getCountryDetailsList()
-            .async(1000)
-            .doOnSuccess { t: CountryEntity? ->
-                t?.let {
-                    title.set(it.title)
-                    val removedNullList = removedNullList(it.rows)
-                    _data.postValue(removedNullList)
-                    isLoading.set(false)
+    private fun callLocalData(): Disposable? {
+        return repo.getCountryDetailsListLocal().subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+                stopLoad()
+                title.set(it.title)
+                val removedNullList = removedNullList(it.rows)
+                _data.postValue(removedNullList)
 
+            }, {
+
+                messageLabel?.set(context.getString(R.string.error_message_loading_users))
+                userLabel?.set(View.VISIBLE)
+                userRecycler?.set(View.GONE)
+
+            })
+    }
+
+    private fun callAPIRemote(): Disposable? {
+        return repo.getCountryDetailsListRemote()?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+                stopLoad()
+                title.set(it.title)
+                val removedNullList = removedNullList(it.rows)
+                _data.postValue(removedNullList)
+
+            }, {
+
+                messageLabel?.set(context.getString(R.string.error_message_loading_users))
+                userLabel?.set(View.VISIBLE)
+                userRecycler?.set(View.GONE)
+
+            })
+    }
+
+    init {
+           fetchData()
+    }
+
+    fun fetchData() {
+        repo.getRowCount()?.observeForever {
+            if (it != null && it > 0) {
+                userRecycler?.set(View.VISIBLE)
+                userLabel?.set(View.GONE)
+                messageLabel?.set("")
+
+                startLoad()
+                callLocalData()
+            } else {
+                if (isInternetAvailable()) {
+                    userRecycler?.set(View.VISIBLE)
+                    userLabel?.set(View.GONE)
+                    messageLabel?.set("")
+
+                    startLoad()
+                    returnData
+                } else {
+                    messageLabel?.set(context.getString(R.string.error_message_loading_internet))
+                    userLabel?.set(View.VISIBLE)
+                    userRecycler?.set(View.GONE)
+
+                    stopLoad()
                 }
             }
-            .doOnSubscribe { startLoad() }
-            .doAfterTerminate { stopLoad() }
+        }
+    }
 
 
     /**
      * This method would add only rows which are not null
      *
-     * @param rowList List passed after reponse
+     * @param rowList List passed after response
      * @return Null removed List
      */
     private fun removedNullList(rowList: List<RowEntity>): List<RowEntity>? {
@@ -80,5 +144,41 @@ class AboutCanadaViewModel constructor(private val repo: AboutCanadaRepository) 
     private val _data = MutableLiveData<List<RowEntity>>()
     val data: LiveData<List<RowEntity>>
         get() = _data
+
+
+    /**
+     * Method to Check Internet Connection
+     *
+     * @return false if internet is not connected
+     */
+    @Suppress("DEPRECATION")
+    fun isInternetAvailable(): Boolean {
+        var result = false
+        val cm =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            cm?.run {
+                cm.getNetworkCapabilities(cm.activeNetwork)?.run {
+                    result = when {
+                        hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                        hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                        hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                        else -> false
+                    }
+                }
+            }
+        } else {
+            cm?.run {
+                cm.activeNetworkInfo?.run {
+                    if (type == ConnectivityManager.TYPE_WIFI) {
+                        result = true
+                    } else if (type == ConnectivityManager.TYPE_MOBILE) {
+                        result = true
+                    }
+                }
+            }
+        }
+        return result
+    }
 
 }

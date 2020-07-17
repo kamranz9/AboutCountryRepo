@@ -25,9 +25,10 @@
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:padding="@dimen/spacing_huge"
+        android:onClick="@{row::onItemClick}"
         app:cardBackgroundColor="@color/light_blue"
         app:cardElevation="@dimen/card_elevation">
-        <!--android:onClick="@{vm::onItemClick}"-->
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -70,8 +71,8 @@
 
                 <ImageView
                     android:id="@+id/image_people"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="@dimen/image_dimens"
+                    android:layout_height="@dimen/image_dimens"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="top"
@@ -79,24 +80,19 @@
                     android:layout_marginRight="@dimen/spacing_small"
                     android:imageUrl="@{row.imageHref}"
                     android:contentDescription="@string/image_details" />
-
             </RelativeLayout>
 
             <ImageView
                 android:id="@+id/image_arrow"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="@dimen/arrow_dimens"
+                android:layout_height="@dimen/arrow_dimens"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/image_details"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/spacing_small"
                 android:src="@drawable/arrow" />
-
-
         </RelativeLayout>
-
     </androidx.cardview.widget.CardView>
-
 
 </layout>

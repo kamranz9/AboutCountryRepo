@@ -22,4 +22,7 @@
     <dimen name="heading_textsize">15sp</dimen>
     <dimen name="description_textsize">14sp</dimen>
     <dimen name="card_elevation">5dp</dimen>
+    <dimen name="image_dimens">80dp</dimen>
+    <dimen name="arrow_dimens">15dp</dimen>
+    <dimen name="margin_small">10dp</dimen>
 </resources>
