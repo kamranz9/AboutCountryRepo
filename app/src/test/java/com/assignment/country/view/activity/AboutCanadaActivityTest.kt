@@ -9,7 +9,6 @@ import com.assignment.country.R
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
 import org.junit.After
-import org.junit.AfterClass
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
@@ -22,16 +21,12 @@ import org.robolectric.annotation.Config
 
 
 @RunWith(RobolectricTestRunner::class)
-//@Config(constants = BuildConfig::class)
 @Config(sdk = [Build.VERSION_CODES.P])
 class AboutCanadaActivityTest {
 
     private lateinit var activity: AboutCanadaActivity
     private lateinit var fragmentTest: AboutCanadaFragment
-
     private lateinit var activityController: ActivityController<AboutCanadaActivity>
-
-
 
     @Before
     fun setup() {
@@ -49,6 +44,8 @@ class AboutCanadaActivityTest {
             .beginTransaction()
             .add(fragmentTest, null)
             .commit()
+
+
     }
 
     @After
@@ -86,7 +83,7 @@ class AboutCanadaActivityTest {
     @Test
     @Throws(Exception::class)
     fun shouldHaveCorrectAppName() {
-        val appName= activity.resources.getString(R.string.app_name)
+        val appName = activity.resources.getString(R.string.app_name)
         assertThat(appName, equalTo("AboutCountryProject"))
     }
 

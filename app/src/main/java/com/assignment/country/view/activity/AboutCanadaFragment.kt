@@ -20,10 +20,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class AboutCanadaFragment : Fragment() {
-    /* private val mBinding: FragmentAboutcanadaBinding by lazy {
-         DataBindingUtil.setContentView<FragmentAboutcanadaBinding>(activi, R.layout.activity_about_canada)
-     }
- */
 
     //di
     private val mViewModel: AboutCanadaViewModel by viewModel()

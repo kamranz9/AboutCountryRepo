@@ -11,8 +11,6 @@ class CustomApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        //startKoin(this, appModule, logger = AndroidLogger(level = DEBUG))
-
         startKoin {
             // use AndroidLogger as Koin Logger - default Level.INFO
             androidLogger()

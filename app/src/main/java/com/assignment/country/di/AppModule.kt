@@ -1,12 +1,7 @@
 package com.assignment.country.di
 
-
-//import com.assignment.aboutcountryproject.BuildConfig
-import android.content.Context
-import androidx.lifecycle.ViewModel
 import com.assignment.country.BuildConfig
 import com.assignment.country.model.local.AppDatabase
-import com.assignment.country.model.local.dao.CountryDetailsDao
 import com.assignment.country.model.remote.AboutCountryService
 import com.assignment.country.model.repository.AboutCanadaRepository
 import com.assignment.country.viewmodel.AboutCanadaViewModel
@@ -19,16 +14,14 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 val viewModelModule = module {
-    viewModel { AboutCanadaViewModel(get<AboutCanadaRepository>(),androidContext()) }
-    //or use reflection
-//    viewModel<PaoViewModel>()
+    viewModel { AboutCanadaViewModel(get(),androidContext()) }
 
 }
 
 
 val repoModule = module {
 
-    factory  <AboutCanadaRepository> { AboutCanadaRepository(get(), get()) }
+    factory { AboutCanadaRepository(get(), get()) }
 
 }
 
@@ -48,9 +41,9 @@ val remoteModule = module {
 
 val localModule = module {
 
-    single<AppDatabase> { AppDatabase.getDatabase(androidApplication()) }
+    single { AppDatabase.getDatabase(androidApplication()) }
 
-    single<CountryDetailsDao> { get<AppDatabase>().countryDetailsDao() }
+    single { get<AppDatabase>().countryDetailsDao() }
 }
 
 
