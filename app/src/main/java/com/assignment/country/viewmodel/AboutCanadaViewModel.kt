@@ -29,80 +29,45 @@ class AboutCanadaViewModel(
     //////////////////data//////////////
     private val loading = ObservableBoolean(false)
     val title = ObservableField<String>()
-    var userRecycler: ObservableInt? = ObservableInt(View.GONE)
-    var progressBar: ObservableInt? = ObservableInt(View.GONE)
+    var userRecycler: ObservableInt? = ObservableInt(View.VISIBLE)
+    var progressBar: ObservableInt = ObservableInt(View.GONE)
     val isLoading: ObservableBoolean = ObservableBoolean(false)
-    var userLabel: ObservableInt? = ObservableInt(View.VISIBLE)
+    var userLabel: ObservableInt? = ObservableInt(View.GONE)
     var messageLabel: ObservableField<String>? = ObservableField("")
 
     private val returnData by lazy {
-        return@lazy callAPIRemote()
+        return@lazy callAPI()
     }
 
-    private fun callLocalData(): Disposable? {
+    fun callAPI(): Disposable? {
+        startLoad()
         return repo.getCountryDetailsListLocal().subscribeOn(Schedulers.io())
-            ?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 stopLoad()
+                userRecycler?.set(View.VISIBLE)
+                userLabel?.set(View.GONE)
+                messageLabel?.set("")
+
                 title.set(it.title)
                 val removedNullList = removedNullList(it.rows)
                 _data.postValue(removedNullList)
 
             }, {
-
-                messageLabel?.set(context.getString(R.string.error_message_loading_users))
-                userLabel?.set(View.VISIBLE)
-                userRecycler?.set(View.GONE)
-
-            })
-    }
-
-    private fun callAPIRemote(): Disposable? {
-        return repo.getCountryDetailsListRemote()?.subscribeOn(Schedulers.io())
-            ?.observeOn(AndroidSchedulers.mainThread())?.subscribe({
                 stopLoad()
-                title.set(it.title)
-                val removedNullList = removedNullList(it.rows)
-                _data.postValue(removedNullList)
-
-            }, {
-
-                messageLabel?.set(context.getString(R.string.error_message_loading_users))
                 userLabel?.set(View.VISIBLE)
                 userRecycler?.set(View.GONE)
+
+                if (isInternetAvailable()) {
+                    messageLabel?.set(context.getString(R.string.error_message_loading_users))
+                } else {
+                    messageLabel?.set(context.getString(R.string.error_message_loading_internet))
+                }
 
             })
     }
 
     init {
-           fetchData()
-    }
-
-    fun fetchData() {
-        repo.getRowCount()?.observeForever {
-            if (it != null && it > 0) {
-                userRecycler?.set(View.VISIBLE)
-                userLabel?.set(View.GONE)
-                messageLabel?.set("")
-
-                startLoad()
-                callLocalData()
-            } else {
-                if (isInternetAvailable()) {
-                    userRecycler?.set(View.VISIBLE)
-                    userLabel?.set(View.GONE)
-                    messageLabel?.set("")
-
-                    startLoad()
-                    returnData
-                } else {
-                    messageLabel?.set(context.getString(R.string.error_message_loading_internet))
-                    userLabel?.set(View.VISIBLE)
-                    userRecycler?.set(View.GONE)
-
-                    stopLoad()
-                }
-            }
-        }
+        returnData
     }
 
 
@@ -131,14 +96,14 @@ class AboutCanadaViewModel(
 
 
     private fun startLoad() {
+        progressBar.set(View.VISIBLE)
         loading.set(true)
-        progressBar!!.set(View.VISIBLE)
     }
 
     private fun stopLoad() {
-        progressBar!!.set(View.GONE)
-        loading.set(false)
         isLoading.set(false)
+        progressBar.set(View.GONE)
+        loading.set(false)
     }
 
     private val _data = MutableLiveData<List<RowEntity>>()

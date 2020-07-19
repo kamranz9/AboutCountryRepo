@@ -9,12 +9,8 @@ class AboutCanadaRepository constructor(
     private val local: CountryDetailsDao
 ) {
 
-    fun getCountryDetailsListRemote() = remote.fetchCountryData(Constants.RANDOM_USER_URL)
-        ?.doOnNext { local.setCountryDetails(it) }
-
     fun getCountryDetailsListLocal() = local.getCountryDetailsListLocal()
-
-    fun getRowCount() = local.getRowCount()
-
+        .onErrorResumeNext(remote.fetchCountryData(Constants.RANDOM_USER_URL)
+            ?.doOnSuccess { local.setCountryDetails(it) })
 
 }

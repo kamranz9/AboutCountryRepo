@@ -40,13 +40,13 @@ class AboutCanadaFragment : Fragment() {
     private fun setRecyclerViewAndObserveData() {
         val adapter = AboutCanadaAdapter()
         handlingLayoutManager(mBinding.recyclerView)
-        var rowl: List<RowEntity> = mutableListOf()
-        rowl.let(adapter::submitList)
+        var listRowData: List<RowEntity> = mutableListOf()
+        listRowData.let(adapter::submitList)
         mBinding.recyclerView.adapter = adapter
         mViewModel.data.observe(viewLifecycleOwner, Observer {
-            rowl = emptyList()
-            rowl = it
-            rowl.let(adapter::submitList)
+            listRowData = emptyList()
+            listRowData = it
+            listRowData.let(adapter::submitList)
             adapter.notifyDataSetChanged()
         })
     }
@@ -76,7 +76,7 @@ class AboutCanadaFragment : Fragment() {
     private fun callSwipe() {
         mBinding.swipeContainer.setOnRefreshListener {
             mViewModel.isLoading.set(true)
-            mViewModel.fetchData()
+            mViewModel.callAPI()
         }
     }
 
