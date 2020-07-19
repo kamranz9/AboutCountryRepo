@@ -8,20 +8,54 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Helvetica_Regular_BodyText" parent="TextAppearance.AppCompat">
+    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="customMatchMatch" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:fontFamily">@font/helveticaneue_regular</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="Helvetica_Bold_BodyText" parent="TextAppearance.AppCompat">
-        <item name="android:fontFamily">@font/helveticaneue_bold</item>
+    <style name="customMatchWrap" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/helveticaneue_regular</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/heading_textsize</item>
+    </style>
+
+    <style name="customMatchWrapDesc" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/helveticaneue_regular</item>
+        <item name="android:textColor">@android:color/secondary_text_light</item>
+        <item name="android:textSize">@dimen/description_textsize</item>
+    </style>
+
+    <style name="customWrapWrap" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/helveticaneue_regular</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
+    <style name="arrowWidthHeight" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">@dimen/arrow_dimens</item>
+        <item name="android:layout_height">@dimen/arrow_dimens</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_small</item>
+        <item name="android:layout_marginRight">@dimen/spacing_small</item>
+    </style>
+
+    <style name="imageWidthHeight" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">@dimen/image_dimens</item>
+        <item name="android:layout_height">@dimen/image_dimens</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_small</item>
+        <item name="android:layout_marginRight">@dimen/spacing_small</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

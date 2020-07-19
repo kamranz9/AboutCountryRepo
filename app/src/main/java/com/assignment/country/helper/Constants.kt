@@ -5,7 +5,7 @@ package com.assignment.country.helper
  */
 class Constants {
 
-    companion object{
+    companion object {
         const val RANDOM_USER_URL = "s/2iodh4vg0eortkl/facts.json/"
     }
 }

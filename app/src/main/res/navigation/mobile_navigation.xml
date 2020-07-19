@@ -10,7 +10,6 @@
         android:id="@+id/nav_home"
         android:name="com.assignment.country.view.activity.AboutCanadaFragment"
         android:label=" "
-        tools:layout="@layout/fragment_aboutcanada">
-    </fragment>
+        tools:layout="@layout/fragment_aboutcanada" />
 
 </navigation>

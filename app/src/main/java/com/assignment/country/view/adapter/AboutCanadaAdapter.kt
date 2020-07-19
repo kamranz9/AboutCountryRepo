@@ -9,13 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.assignment.country.databinding.ItemCanadaBinding
 import com.assignment.country.model.data.RowEntity
 
-class AboutCanadaAdapter : ListAdapter<RowEntity, AboutCanadaAdapter.RowEntityViewHolder>(Companion) {
+class AboutCanadaAdapter :
+    ListAdapter<RowEntity, AboutCanadaAdapter.RowEntityViewHolder>(Companion) {
 
-    class RowEntityViewHolder(val binding: ItemCanadaBinding) : RecyclerView.ViewHolder(binding.root)
+    class RowEntityViewHolder(val binding: ItemCanadaBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
-    companion object: DiffUtil.ItemCallback<RowEntity>() {
-        override fun areItemsTheSame(oldItem: RowEntity, newItem: RowEntity): Boolean = oldItem === newItem
-        override fun areContentsTheSame(oldItem: RowEntity, newItem: RowEntity): Boolean = oldItem.title == newItem.title
+    companion object : DiffUtil.ItemCallback<RowEntity>() {
+        override fun areItemsTheSame(oldItem: RowEntity, newItem: RowEntity): Boolean =
+            oldItem === newItem
+
+        override fun areContentsTheSame(oldItem: RowEntity, newItem: RowEntity): Boolean =
+            oldItem.title == newItem.title
     }
 
     @Nullable

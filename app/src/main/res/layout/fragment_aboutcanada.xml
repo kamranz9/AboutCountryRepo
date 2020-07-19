@@ -19,63 +19,49 @@
             type="com.assignment.country.view.activity.AboutCanadaFragment" />
     </data>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <RelativeLayout style="@style/customMatchMatch">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/header_template"
-            android:layout_width="match_parent"
+            style="@style/customMatchWrap"
             android:background="@android:color/holo_blue_bright"
-            android:layout_height="wrap_content"
             app:visibility="@{vm.userRecycler}">
 
             <TextView
-                style="@style/Helvetica_Bold_BodyText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/customMatchWrap"
                 android:layout_margin="@dimen/margin_small"
                 android:elevation="@dimen/margin_small"
                 android:gravity="center"
                 android:text="@{vm.title}" />
         </androidx.cardview.widget.CardView>
 
-
         <ProgressBar
             android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/customWrapWrap"
             android:layout_below="@+id/header_template"
             android:layout_centerHorizontal="true"
             app:visibility="@{vm.progressBar}" />
 
         <TextView
             android:id="@+id/label_status"
-            style="@style/Helvetica_Bold_BodyText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/customMatchWrap"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@{vm.messageLabel}"
             app:visibility="@{vm.userLabel}" />
 
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            style="@style/customMatchMatch"
             android:layout_below="@+id/header_template"
             app:refreshing="@{vm.isLoading}">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                style="@style/customMatchMatch"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:visibility="@{vm.userRecycler}" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
 
     </RelativeLayout>
 </layout>

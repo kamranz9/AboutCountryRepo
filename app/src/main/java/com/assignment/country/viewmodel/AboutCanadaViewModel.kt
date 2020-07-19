@@ -1,9 +1,6 @@
 package com.assignment.country.viewmodel
 
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.view.View
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -12,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.assignment.country.R
+import com.assignment.country.helper.InternetCheckHelper
 import com.assignment.country.model.data.RowEntity
 import com.assignment.country.model.repository.AboutCanadaRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -57,7 +55,7 @@ class AboutCanadaViewModel(
                 userLabel?.set(View.VISIBLE)
                 userRecycler?.set(View.GONE)
 
-                if (isInternetAvailable()) {
+                if (InternetCheckHelper.isInternetAvailable(context)) {
 
                     repo.getRowCount()?.observeForever {
                         if (it == null || it == 0) {
@@ -76,7 +74,6 @@ class AboutCanadaViewModel(
         returnData
     }
 
-
     /**
      * This method would add only rows which are not null
      *
@@ -89,7 +86,6 @@ class AboutCanadaViewModel(
         return removed
     }
 
-
     /**
      * This method will check if Condition matches that all items to be displayed are null
      *
@@ -99,7 +95,6 @@ class AboutCanadaViewModel(
     private fun checkIfRowIsNull(row: RowEntity): Boolean {
         return row.title != null || row.description != null || row.imageHref != null
     }
-
 
     private fun startLoad() {
         progressBar.set(View.VISIBLE)
@@ -115,41 +110,5 @@ class AboutCanadaViewModel(
     private val _data = MutableLiveData<List<RowEntity>>()
     val data: LiveData<List<RowEntity>>
         get() = _data
-
-
-    /**
-     * Method to Check Internet Connection
-     *
-     * @return false if internet is not connected
-     */
-    @Suppress("DEPRECATION")
-    fun isInternetAvailable(): Boolean {
-        var result = false
-        val cm =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            cm?.run {
-                cm.getNetworkCapabilities(cm.activeNetwork)?.run {
-                    result = when {
-                        hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                        hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                        hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                        else -> false
-                    }
-                }
-            }
-        } else {
-            cm?.run {
-                cm.activeNetworkInfo?.run {
-                    if (type == ConnectivityManager.TYPE_WIFI) {
-                        result = true
-                    } else if (type == ConnectivityManager.TYPE_MOBILE) {
-                        result = true
-                    }
-                }
-            }
-        }
-        return result
-    }
 
 }
