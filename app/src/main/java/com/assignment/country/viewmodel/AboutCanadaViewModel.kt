@@ -58,7 +58,13 @@ class AboutCanadaViewModel(
                 userRecycler?.set(View.GONE)
 
                 if (isInternetAvailable()) {
-                    messageLabel?.set(context.getString(R.string.error_message_loading_users))
+
+                    repo.getRowCount()?.observeForever {
+                        if (it == null || it == 0) {
+                            messageLabel?.set(context.getString(R.string.error_no_data_available))
+                        }
+                    }
+
                 } else {
                     messageLabel?.set(context.getString(R.string.error_message_loading_internet))
                 }
