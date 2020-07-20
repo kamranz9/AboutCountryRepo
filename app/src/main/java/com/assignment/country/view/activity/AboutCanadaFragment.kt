@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.assignment.country.R
 import com.assignment.country.databinding.FragmentAboutcanadaBinding
+import com.assignment.country.helper.InternetCheckHelper
 import com.assignment.country.model.data.RowEntity
 import com.assignment.country.view.adapter.AboutCanadaAdapter
 import com.assignment.country.viewmodel.AboutCanadaViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
-
 
 class AboutCanadaFragment : Fragment() {
     //di
@@ -39,6 +40,9 @@ class AboutCanadaFragment : Fragment() {
 
     private fun setRecyclerViewAndObserveData() {
         val adapter = AboutCanadaAdapter()
+        adapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
         var listRowData: List<RowEntity> = mutableListOf()
         listRowData.let(adapter::submitList)
         mBinding.recyclerView.adapter = adapter
@@ -47,6 +51,35 @@ class AboutCanadaFragment : Fragment() {
             listRowData = it
             listRowData.let(adapter::submitList)
             adapter.notifyDataSetChanged()
+        })
+
+        mViewModel.titleLive.observe(viewLifecycleOwner, Observer {
+            mViewModel.title.set(it)
+        })
+
+        mViewModel.response.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                1 -> {
+                    mViewModel.userRecycler?.set(View.VISIBLE)
+                    mViewModel.userLabel?.set(View.GONE)
+                    mViewModel.messageLabel?.set("")
+                }
+                2 -> {
+                    mViewModel.userLabel?.set(View.VISIBLE)
+                    mViewModel.userRecycler?.set(View.GONE)
+                    if (InternetCheckHelper.isInternetAvailable(requireContext())) {
+                        mViewModel.getRowCount?.observe(viewLifecycleOwner, Observer {
+                            if (!(it != null && it != 0)) mViewModel.messageLabel?.set(
+                                context?.getString(
+                                    R.string.error_no_data_available
+                                )
+                            )
+                        })
+                    } else {
+                        mViewModel.messageLabel?.set(context?.getString(R.string.error_message_loading_internet))
+                    }
+                }
+            }
         })
     }
 

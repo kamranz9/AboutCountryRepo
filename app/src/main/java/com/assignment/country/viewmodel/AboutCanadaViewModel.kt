@@ -1,6 +1,5 @@
 package com.assignment.country.viewmodel
 
-import android.content.Context
 import android.view.View
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -8,8 +7,6 @@ import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.assignment.country.R
-import com.assignment.country.helper.InternetCheckHelper
 import com.assignment.country.model.data.RowEntity
 import com.assignment.country.model.repository.AboutCanadaRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,15 +15,24 @@ import io.reactivex.schedulers.Schedulers
 
 
 class AboutCanadaViewModel(
-    private val repo: AboutCanadaRepository,
-    androidContext: Context
+    private val repo: AboutCanadaRepository
 ) : ViewModel() {
 
-    private val context = androidContext
+    private val _data = MutableLiveData<List<RowEntity>>()
+    val data: LiveData<List<RowEntity>>
+        get() = _data
+
+    private val _title = MutableLiveData<String>()
+    val titleLive: LiveData<String>
+        get() = _title
+
+    private val _response = MutableLiveData<Int>()
+    val response: LiveData<Int>
+        get() = _response
 
     //////////////////data//////////////
     private val loading = ObservableBoolean(false)
-    val title = ObservableField<String>()
+    var title = ObservableField<String>()
     var userRecycler: ObservableInt? = ObservableInt(View.VISIBLE)
     var progressBar: ObservableInt = ObservableInt(View.GONE)
     val isLoading: ObservableBoolean = ObservableBoolean(false)
@@ -37,36 +43,20 @@ class AboutCanadaViewModel(
         return@lazy callAPI()
     }
 
+    var getRowCount = repo.getRowCount()
+
     fun callAPI(): Disposable? {
         startLoad()
         return repo.getCountryDetailsListLocal().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 stopLoad()
-                userRecycler?.set(View.VISIBLE)
-                userLabel?.set(View.GONE)
-                messageLabel?.set("")
-
-                title.set(it.title)
-                val removedNullList = removedNullList(it.rows)
-                _data.postValue(removedNullList)
+                _response.postValue(1)
+                _data.postValue(removedNullList(it.rows))
+                _title.postValue(it.title)
 
             }, {
                 stopLoad()
-                userLabel?.set(View.VISIBLE)
-                userRecycler?.set(View.GONE)
-
-                if (InternetCheckHelper.isInternetAvailable(context)) {
-
-                    repo.getRowCount()?.observeForever {
-                        if (it == null || it == 0) {
-                            messageLabel?.set(context.getString(R.string.error_no_data_available))
-                        }
-                    }
-
-                } else {
-                    messageLabel?.set(context.getString(R.string.error_message_loading_internet))
-                }
-
+                _response.postValue(2)
             })
     }
 
@@ -106,9 +96,5 @@ class AboutCanadaViewModel(
         progressBar.set(View.GONE)
         loading.set(false)
     }
-
-    private val _data = MutableLiveData<List<RowEntity>>()
-    val data: LiveData<List<RowEntity>>
-        get() = _data
 
 }
